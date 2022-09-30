@@ -2,6 +2,7 @@ import {MiniMaple} from './miniMaple.js'
 
 window.onload = function() {
     document.querySelector('input#variable').value = "";
+    document.querySelector('input#equation').value = "";
 }
 
 const maple = new MiniMaple();
