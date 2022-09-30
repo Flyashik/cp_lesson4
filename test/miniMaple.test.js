@@ -3,8 +3,12 @@ import {MiniMaple} from "../src/miniMaple";
 test('differentiation simple term', () => {
     const testMaple = new MiniMaple();
 
-    let testFunc = '2*x';
+    let testFunc = 'x';
+    expect(testMaple.diffFunc(testFunc, 'x')).toBe('1');
+    testFunc = '2*x';
     expect(testMaple.diffFunc(testFunc, 'x')).toBe('2');
+    testFunc = 'x^2';
+    expect(testMaple.diffFunc(testFunc, 'x')).toBe('2*x');
     testFunc = '4*x^2';
     expect(testMaple.diffFunc(testFunc, 'x')).toBe('8*x');
     testFunc = '-3*x^3';
@@ -47,9 +51,24 @@ test('differentiation on two terms with two variable', () => {
     expect(testMaple.diffFunc(testFunc, 'y')).toBe('-6*y');
 });
 
-test('regexTestString', () => {
+test('can\'t differentiate', () => {
+    const testMaple = new MiniMaple();
+
+    let testFunc = '20/x^3+11';
+    expect(testMaple.diffFunc(testFunc, 'x')).toBe('Error');
+});
+
+test('matches a regex?', () => {
     const testMaple = new MiniMaple();
     
-    let testFunc = '30*x^3+10';
-    expect(testMaple.regexTestString(testFunc)).toBe(true);
+    let testFunc = '+30*x^3+10';
+    expect(testMaple.regexString(testFunc)).toBe(true);
+    testFunc = '-5*x';
+    expect(testMaple.regexString(testFunc)).toBe(true);
+    testFunc = '+12+3*x^3';
+    expect(testMaple.regexString(testFunc)).toBe(true);
+    testFunc = '+13*x+10*y^3';
+    expect(testMaple.regexString(testFunc)).toBe(true);
+    testFunc = '+10*x';
+    expect(testMaple.regexString(testFunc)).toBe(true);
 });
